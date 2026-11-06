@@ -33,7 +33,7 @@ export const fetchProducts = createAsyncThunk(
         products: response.data.products,
         total: response.data.total,
         skip: response.data.skip,
-        limit: response.data.limit,
+        limit,
       };
     } catch (error) {
       return rejectWithValue(

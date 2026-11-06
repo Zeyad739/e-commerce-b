@@ -263,7 +263,10 @@ export default function Products() {
         </Row>
 
         {/* Categories Pills */}
-        <CategoryList activeCategory={selectedCategory} />
+        <CategoryList
+          activeCategory={selectedCategory}
+          onSelectCategory={(category) => dispatch(setSelectedCategory(category))}
+        />
       </div>
 
       {/* Loading state */}
