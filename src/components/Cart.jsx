@@ -57,6 +57,7 @@ export default function Cart() {
   } = useSelector((state) => state.cart);
   const isDark = useSelector((state) => state.theme.isDark);
   const currentUser = useSelector((state) => state.users.currentUser);
+  const isAdmin = currentUser?.role === "admin" || currentUser?.username === "emilys";
 
   const [inputCoupon, setInputCoupon] = useState("");
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
@@ -79,8 +80,10 @@ export default function Cart() {
 
   // Load API carts on demand
   useEffect(() => {
-    dispatch(fetchApiCarts());
-  }, [dispatch]);
+    if (isAdmin) {
+      dispatch(fetchApiCarts());
+    }
+  }, [dispatch, isAdmin]);
 
   const handleApplyCoupon = (e) => {
     e.preventDefault();
@@ -408,15 +411,16 @@ export default function Cart() {
         </Tab>
 
         {/* API Carts Explorer Tab (Demonstrates DummyJSON Carts CRUD & inspection) */}
-        <Tab
-          eventKey="api-carts"
-          title={
-            <span>
-              <FaReceipt className="me-1" />
-              API Carts Explorer ({apiCarts?.length || 0})
-            </span>
-          }
-        >
+        {isAdmin && (
+          <Tab
+            eventKey="api-carts"
+            title={
+              <span>
+                <FaReceipt className="me-1" />
+                API Carts Explorer ({apiCarts?.length || 0})
+              </span>
+            }
+          >
           <Card
             className={`border-0 shadow-sm rounded-4 p-4 ${
               isDark ? "bg-dark text-white border-secondary" : "bg-white"
@@ -474,7 +478,8 @@ export default function Cart() {
               </Table>
             )}
           </Card>
-        </Tab>
+          </Tab>
+        )}
       </Tabs>
 
       {/* Checkout Modal */}
