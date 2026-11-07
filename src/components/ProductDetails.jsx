@@ -48,11 +48,11 @@ export default function ProductDetails() {
   const [imageSelection, setImageSelection] = useState(null);
   const [quantitySelection, setQuantitySelection] = useState(null);
   const activeImage =
-    imageSelection?.productId === selectedProduct?.id
+    imageSelection && imageSelection.productId === selectedProduct?.id
       ? imageSelection.image
       : selectedProduct?.thumbnail || selectedProduct?.images?.[0] || "";
   const quantity =
-    quantitySelection?.productId === selectedProduct?.id
+    quantitySelection && quantitySelection.productId === selectedProduct?.id
       ? quantitySelection.quantity
       : 1;
 
